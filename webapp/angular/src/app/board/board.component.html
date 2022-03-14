@@ -1,0 +1,17 @@
+<h1>Selected Color: {{ selectedColor }} </h1>>
+
+<button (click)="clearScreen()">Clear</button>
+<button (click)="setSelectedColor('white')">White</button>
+<button (click)="setSelectedColor('black')">Black</button>
+<button (click)="setSelectedColor('blue')">Blue</button>
+<button (click)="setSelectedColor('green')">Green</button>
+<button (click)="setSelectedColor('yellow')">Yellow</button>
+
+<main>
+    <app-pixel-button
+        *ngFor="let val of pixelButtons; let i = index" 
+        [value]="val"
+        (click)="clickPixel(i)"> 
+
+    </app-pixel-button>
+</main>
