@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  board:
+    build: './board'
+    ports:
+      - "8081:8081"
+  webapp:
+    build: './webapp'
+    ports:
+      - "8080:80"
