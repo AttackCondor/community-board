@@ -1,5 +1,5 @@
 # Use latest python
-FROM node:latest as build
+FROM node:17.7.1 as build
 
 # Set up working directory at /app
 WORKDIR /app
