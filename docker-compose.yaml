@@ -1,11 +1,29 @@
-version: '3'
+version: '3.2'
 
 services:
   board:
-    build: './board'
+    build: ./board
     ports:
-      - "8081:8081"
+      - 8082:8082
   webapp:
-    build: './webapp'
+    build: ./webapp
     ports:
-      - "8080:80"
+      - 8080:80
+  mongodb:
+    build: ./mongodb
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+      MONGO_INITDB_DATABASE: $MONGO_INITDB_DATABASE
+      MONGO_USERNAME: $MONGO_USERNAME
+      MONGO_PASSWORD: $MONGO_PASSWORD
+    volumes:
+      - type: volume
+        source: community-board-db
+        target: /data/db
+volumes:
+  community-board-db:
+    external: true
+      
