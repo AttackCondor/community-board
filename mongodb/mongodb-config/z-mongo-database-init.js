@@ -1,4 +1,4 @@
-db = new Mongo().getDB("community-board");
+db = new Mongo().getDB("communityBoard");
 
 db.createCollection('boardMapping', { capped: false });
 for(let i = 0; i<2048; i++){
