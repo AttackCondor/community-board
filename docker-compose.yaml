@@ -1,8 +1,8 @@
 version: '3.2'
 
 services:
-  board:
-    build: ./board
+  controller:
+    build: ./controller
     ports:
       - 8082:8082
     environment:
