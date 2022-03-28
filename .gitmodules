@@ -1,4 +1,4 @@
-[submodule "controller/app/submodules/matrix"]
+[submodule "matrix"]
 	path = controller/app/submodules/matrix
 	url = https://github.com/hzeller/rpi-rgb-led-matrix.git
 	dirty = ignore
