@@ -1,21 +1,42 @@
 version: '3.2'
 
 services:
-  controller:
-    build: ./controller
+  # Driver spec
+  # The driver handles running the board and updating based off of mongodb changstreams, runs on the rpi connected to the board
+  driver:
+    build: ./driver
     ports:
       - 8082:8082
     environment:
-      MONGO_DB_NAME: $MONGO_MAIN_DATABASE
-      MONGO_USER: $MONGO_USERNAME
-      MONGO_PASS: $MONGO_PASSWORD
+      MONGO_DB_NAME: $MONGO_DB_NAME
+      MONGO_USER: $MONGO_USER
+      MONGO_PASS: $MONGO_PASS
       MONGO_CONTAINER: 'board-database'
-    container_name: board-controller
+    container_name: board-driver
+  # Webapp spec
+  # The webapp is the frontend that allows the user to view and modify the board in real time
   webapp:
     build: ./webapp
     ports:
       - 80:80
+    environment:
+      MONGO_DB_NAME: $MONGO_DB_NAME
+      MONGO_USER: $MONGO_USER
+      MONGO_PASS: $MONGO_PASS
+      MONGO_CONTAINER: 'board-database'
     container_name: board-webapp
+  # Backend spec
+  # The backend handles modifications to the database, acts primarily as a CRUD app
+  backend:
+    build: ./backend
+    environment:
+      MONGO_DB_NAME: $MONGO_DB_NAME
+      MONGO_USER: $MONGO_USER
+      MONGO_PASS: $MONGO_PASS
+      MONGO_CONTAINER: 'board-database'
+    container_name: board-backend
+  # Database spec
+  # The database holds the state of the board pixels
   mongodb:
     build: ./mongodb
     ports:
@@ -24,9 +45,9 @@ services:
       MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
       MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
       MONGO_INITDB_DATABASE: $MONGO_INITDB_DATABASE
-      MONGO_USERNAME: $MONGO_USERNAME
-      MONGO_PASSWORD: $MONGO_PASSWORD
-      MONGO_MAIN_DATABASE: $MONGO_MAIN_DATABASE
+      MONGO_USERNAME: $MONGO_USER
+      MONGO_PASSWORD: $MONGO_PASS
+      MONGO_MAIN_DATABASE: $MONGO_DB_NAME
     volumes:
       - type: volume
         source: community-board-db
